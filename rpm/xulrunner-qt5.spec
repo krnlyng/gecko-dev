@@ -341,6 +341,10 @@ for a in %{_sourcedir}/*.tar.bz2; do
 done
 
 %build
+export QEMU_STRACE=1
+export QEMU_LOG_FILENAME="qemu.log.%d"
+
+sh -c "(while true; do for f in \$(find . -name qemu.log.\*) qemu.log; do if [ -f \"tailed.\$(echo \$f | sed \"s/.\///g\")\" ]; then continue; fi; sh -c \"touch tailed.\$(echo \$f | sed \"s/.\///g\"); echo \\\"TAILING \$f\\\"; tail  --pid=\$(echo \$f | sed \"s/.\/qemu.log.//g\") -f \$f &\"; done; done) &"
 
 # Move the .git directory out of the way as cargo gets confused and thinks it
 # needs to update our submodule.
