@@ -464,7 +464,7 @@ echo 'mk_add_options LDFLAGS="$FIX_LDFLAGS"' >> "${MOZCONFIG}"
 
 RPM_BUILD_NCPUS=`nproc`
 
-./mach build -j$RPM_BUILD_NCPUS
+#./mach build -j$RPM_BUILD_NCPUS
 # This might be unnecessary but previously some files
 # were only behind FASTER_RECURSIVE_MAKE but only adds few
 # minutes for the build.
