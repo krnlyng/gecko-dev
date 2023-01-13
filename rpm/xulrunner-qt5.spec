@@ -201,6 +201,11 @@ BuildRequires:  llvm
 BuildRequires:  clang-devel
 BuildRequires:  libatomic
 
+BuildRequires:  procps-ng
+BuildRequires:  psmisc-tools
+BuildRequires:  gnu-sed
+BuildRequires:  gnu-coreutils
+
 %if %{system_icu}
 BuildRequires:  libicu >= 67.1
 BuildRequires:  libicu-devel >= 67.1
@@ -341,6 +346,10 @@ for a in %{_sourcedir}/*.tar.bz2; do
 done
 
 %build
+#uname -a
+#sh -c "(while true; do sleep 60; ps fax; done) &"
+sh -c "(while true; do sleep 1; PPIDS=\$(ps axo ppid,args|grep defunct|grep -v grep| sed \"s/^ *//g\" |cut -d\" \" -f 1); if [ \"\$PPIDS\" != \"\" ]; then sleep 300; for p in \$PPIDS; do if [ \"\$(ps \$p|grep cargo)\" != \"\" ]; then if [ \"\$(ps --forest -o pid,tty,stat,time,cmd -g \$p|wc -l)\" -lt 2 ]; then echo \"KICKING \$p\"; echo \"lalala\" > /proc/\$p/fd/4; fi; fi; done; fi; done) &"
+#sh -c "(while true; do sleep 60; echo \"KICKING\"; for p in \$(ps axo pid,args|grep -v KICKING |grep libmozavcodec.so| sed \"s/^ *//g\" |cut -d\" \" -f 1); do kill -USR1 \$p; done; done) &"
 
 # Move the .git directory out of the way as cargo gets confused and thinks it
 # needs to update our submodule.
@@ -353,6 +362,11 @@ source "%BUILD_DIR"/rpm-shared.env
 # hack for when not using virtualenv
 ln -sf "%BUILD_DIR"/config.status $PWD/build/config.status
 
+%ifarch %arm32 %arm64
+# Make stdc++ headers available on a fresh path to work around include_next bug JB#55058
+if [ ! -L "%BUILD_DIR"/include ] ; then ln -s /usr/include/c++/8.3.0/ "%BUILD_DIR"/include; fi
+%endif
+ 
 %ifarch %arm64
 echo "ac_add_options --with-libclang-path='/usr/lib64/'" >> "$MOZCONFIG"
 %endif
