@@ -362,11 +362,6 @@ source "%BUILD_DIR"/rpm-shared.env
 # hack for when not using virtualenv
 ln -sf "%BUILD_DIR"/config.status $PWD/build/config.status
 
-%ifarch %arm32 %arm64
-# Make stdc++ headers available on a fresh path to work around include_next bug JB#55058
-if [ ! -L "%BUILD_DIR"/include ] ; then ln -s /usr/include/c++/8.3.0/ "%BUILD_DIR"/include; fi
-%endif
- 
 %ifarch %arm64
 echo "ac_add_options --with-libclang-path='/usr/lib64/'" >> "$MOZCONFIG"
 %endif
