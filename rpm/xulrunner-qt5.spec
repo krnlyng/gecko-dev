@@ -348,7 +348,7 @@ done
 %build
 #uname -a
 #sh -c "(while true; do sleep 60; ps fax; done) &"
-sh -c "(while true; do sleep 1; PPIDS=\$(ps axo ppid,args|grep defunct|grep -v grep| sed \"s/^ *//g\" |cut -d\" \" -f 1); if [ \"\$PPIDS\" != \"\" ]; then sleep 300; for p in \$PPIDS; do if [ \"\$(ps \$p|grep cargo)\" != \"\" ]; then if [ \"\$(ps --forest -o pid,tty,stat,time,cmd -g \$p|wc -l)\" -lt 2 ]; then echo \"KICKING \$p\"; echo \"lalala\" > /proc/\$p/fd/4; fi; fi; done; fi; done) &"
+sh -c "(while true; do sleep 1; PPIDS=\$(ps axo ppid,args|grep defunct|grep -v grep| sed \"s/^ *//g\" |cut -d\" \" -f 1); if [ \"\$PPIDS\" != \"\" ]; then sleep 300; for p in \$PPIDS; do if [ \"\$(ps --forest -o pid,tty,stat,time,cmd -g \$p|wc -l)\" -lt 2 ]; then echo \"KICKING \$p\"; echo \"lalala\" > /proc/\$p/fd/4; fi; done; fi; done) &"
 #sh -c "(while true; do sleep 60; echo \"KICKING\"; for p in \$(ps axo pid,args|grep -v KICKING |grep libmozavcodec.so| sed \"s/^ *//g\" |cut -d\" \" -f 1); do kill -USR1 \$p; done; done) &"
 
 # Move the .git directory out of the way as cargo gets confused and thinks it
