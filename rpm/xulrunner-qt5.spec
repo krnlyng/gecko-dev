@@ -101,7 +101,6 @@ Patch43:    0043-sailfishos-docshell-Get-ContentFrameMessageManager-v.patch
 Patch44:    0044-Revert-Bug-1445570-Remove-EnsureEventualAfterPaint-t.patch
 Patch45:    0045-sailfishos-gecko-Prioritize-GMP-plugins-over-all-oth.patch
 Patch46:    0046-sailfishos-gecko-Force-recycling-of-gmp-droid-instan.patch
-Patch47:    0047-sailfishos-egl-Drop-swap_buffers_with_damage-extensi.patch
 Patch48:    0048-Revert-Bug-1494175-Remove-unimplemented-nsIWebBrowse.patch
 Patch49:    0049-sailfishos-gecko-Force-use-of-mobile-video-controls..patch
 Patch50:    0050-sailfishos-gecko-Nullify-delayed-work-timer-after-ca.patch
